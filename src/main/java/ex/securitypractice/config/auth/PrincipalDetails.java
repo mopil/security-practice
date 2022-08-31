@@ -1,12 +1,14 @@
-package ex.securitypractice.auth;
+package ex.securitypractice.config.auth;
 
 import ex.securitypractice.model.User;
-import lombok.AllArgsConstructor;
+import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Map;
 
 /*
 시큐리티가 /login 을 낚아채서 로그인을 진행시킴
@@ -17,11 +19,26 @@ User 오브젝트 타입도 정해져 있음 -> UserDetails 타입 객체
 
 Security Session 에 들어갈 수 있는 객체 -> Authentication 객체 -> UserDetails 객체
 */
-@AllArgsConstructor
-public class PrincipalDetails implements UserDetails {
+@Data
+public class PrincipalDetails implements UserDetails, OAuth2User {
 
     private User user; // 콤포지션
+    private Map<String, Object> attributes;
 
+    // 일반 로그인용 생성자
+    public PrincipalDetails(User user) {
+        this.user = user;
+    }
+
+    // OAuth 로그인용 생성자
+    public PrincipalDetails(User user, Map<String, Object> attributes) {
+        this.user = user;
+        this.attributes = attributes;
+    }
+
+    /**
+     * UserDetails Implements
+     */
     // 해당 유저의 권한을 리턴
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -68,5 +85,18 @@ public class PrincipalDetails implements UserDetails {
         현재시간 - 로긴시간 => 1년을 초과하면 return false
          */
         return true;
+    }
+
+    /**
+     * OAuth2User Implements
+     */
+    @Override
+    public Map<String, Object> getAttributes() {
+        return attributes;
+    }
+
+    @Override
+    public String getName() {
+        return null;
     }
 }

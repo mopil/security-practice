@@ -1,4 +1,4 @@
-package ex.securitypractice.auth;
+package ex.securitypractice.config.auth;
 
 import ex.securitypractice.model.User;
 import ex.securitypractice.repository.UserRepository;
@@ -19,6 +19,7 @@ public class PrincipalDetailsService implements UserDetailsService {
     private final UserRepository userRepository;
 
     // 시큐리티 session(내부 Authentication(내부 UserDetails))
+    // @AuthenticationPrincipal 어노테이션이 함수가 종료될때 만들어짐
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
