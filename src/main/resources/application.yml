@@ -33,11 +33,11 @@ spring:
               - profile
 
           facebook:
-            client-id: 머시기
-            client-secret: 머시기
+            client-id: 487331849876591
+            client-secret: bbc318e21393adb595d189d50b9b10e5
             scope:
               - email
-              - public_profile
+              - public_profile # 페북이 이렇게 정해놨음 (공식 문서 확인)
 
           # 네이버는 OAuth2.0 공식 지원대상이 아니라서 provider 설정이 필요하다.
           # 요청주소도 다르고, 응답 데이터도 다르기 때문이다.
